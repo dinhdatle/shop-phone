@@ -1,22 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
 // import products from "../../data/Products";
 import axios from "axios";
-
+import {useDispatch, useSelector } from "react-redux"
+import { listProduct } from "../../Redux/Actions/ProductActions";
+import Loading from "../LoadingError/Loading";
+import Message from "../LoadingError/Error";
 
 
 const ShopSection = () => {
-  const [products,setProducts] = useState([]);
+  // const [products,setProducts] = useState([]);
+
+  // useEffect(()=>{
+  //   const fetchproducts = async () =>{
+  //     const {data} = await axios.get("/api/products");
+  //     setProducts(data)
+  //   }
+  //    fetchproducts()
+  // },[])
+
+  const dispatch = useDispatch();
+
+  const productList = useSelector((state) => state.productList)
+  const {loading,error, products} = productList;
 
   useEffect(()=>{
-    const fetchproducts = async () =>{
-      const {data} = await axios.get("/api/products");
-      setProducts(data)
-    }
-     fetchproducts()
-  },[])
+    dispatch(listProduct())
+   
+  },[dispatch])
 
   return (
     <>
@@ -27,7 +40,11 @@ const ShopSection = () => {
             {/* <div className="col-lg-12 col-md-12 article"> */}
             <div>
               <div className="shopcontainer row">
-                {products.map((product) => (
+              {
+                loading ? (<Loading />) : error ? (<Message variant="alert-danger">{error}</Message>) :
+                (
+                  <>
+                  {products.map((product) => (
                   <div
                     className="shop col-lg-4 col-md-6 col-sm-6"
                     key={product._id}
@@ -55,6 +72,11 @@ const ShopSection = () => {
                     </div>
                   </div>
                 ))}
+                  </>
+                )
+              }
+
+                
                 {/* Pagination */}
                 <Pagination />
               </div>
