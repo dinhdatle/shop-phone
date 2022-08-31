@@ -5,26 +5,53 @@ import { Link } from "react-router-dom";
 import Message from "./../components/LoadingError/Error";
 // import products from "../data/Products";
 import axios from "axios";
+import {useDispatch, useSelector } from "react-redux"
+import { listProductDetails } from "../Redux/Actions/ProductActions";
+import Loading from "../components/LoadingError/Loading.js";
 
 
-const SingleProduct = ({ match }) => {
+const SingleProduct = ({ history, match }) => {
   // const product = products.find((p) => p._id === match.params.id);
 
-  const [product,setProduct] = useState({});
+  // const [product,setProduct] = useState({});
+
+  // useEffect(()=>{
+  //   const fetchproduct = async () =>{
+  //     const {data} = await axios.get(`/api/products/${match.params.id}`);
+  //     setProduct(data)
+  //   }
+  //    fetchproduct()
+  // },[])
+
+  const [qty,setQty] = useState(1)
+  const dispatch = useDispatch();
+
+  const productId = match.params.id;
+
+  const productDetails = useSelector((state) => state.productDetails)
+  const {loading,error, product} = productDetails;
 
   useEffect(()=>{
-    const fetchproduct = async () =>{
-      const {data} = await axios.get(`/api/products/${match.params.id}`);
-      setProduct(data)
-    }
-     fetchproduct()
-  },[])
+    dispatch(listProductDetails(productId))
+   
+  },[dispatch,productId])
+
+  const AddToCartHandle = (e) =>{
+    e.preventDefault()
+    history.push(`/cart/${productId}?qty=${qty}`)
+
+
+  }
 
   return (
     <>
       <Header />
       <div className="container single-product">
-        <div className="row">
+        {
+          loading ? (<Loading />) : error ? (<Message variant="alert-danger">{error}</Message>) : 
+          (
+            <>
+             <div className="row">
           <div className="col-md-6">
             <div className="single-image">
               <img src={product.image} alt={product.name} />
@@ -57,11 +84,12 @@ const SingleProduct = ({ match }) => {
                     text={`${product.numReviews} reviews`}
                   />
                 </div>
+
                 {product.countInStock > 0 ? (
                   <>
                     <div className="flex-box d-flex justify-content-between align-items-center">
                       <h6>Quantity</h6>
-                      <select>
+                      <select value={qty} onChange={(e) => setQty(e.target.value)}>
                         {[...Array(product.countInStock).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>
                             {x + 1}
@@ -69,7 +97,7 @@ const SingleProduct = ({ match }) => {
                         ))}
                       </select>
                     </div>
-                    <button className="round-black-btn">Add To Cart</button>
+                    <button onClick={AddToCartHandle} className="round-black-btn">Add To Cart</button>
                   </>
                 ) : null}
               </div>
@@ -134,6 +162,10 @@ const SingleProduct = ({ match }) => {
             </div>
           </div>
         </div>
+            </>
+          )
+        }
+       
       </div>
     </>
   );

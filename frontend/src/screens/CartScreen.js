@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./../components/Header";
 import { Link } from "react-router-dom";
-
-const CartScreen = () => {
+import { useDispatch } from "react-redux";
+import {addToCart} from "../Redux/Actions/cartActions.js"
+const CartScreen = (match) => {
   window.scrollTo(0, 0);
+  const productId = match.match.params.id;
+  const qty = match.location.search ? Number(match.location.search.split("=")[1]) : 1
+  const dispatch = useDispatch()
+
+  useEffect(()=>{ 
+    if(productId){
+      dispatch(addToCart(productId,qty))
+    }
+
+
+  },[dispatch,productId,qty])
+  
+  
   return (
     <>
       <Header />
+
       {/* Cart */}
       <div className="container">
         {/* <div className=" alert alert-info text-center mt-3">
