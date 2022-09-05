@@ -22,7 +22,6 @@ const SingleProduct = ({ history, match }) => {
   //   }
   //    fetchproduct()
   // },[])
-
   const [qty,setQty] = useState(1)
   const dispatch = useDispatch();
 
@@ -35,17 +34,15 @@ const SingleProduct = ({ history, match }) => {
     dispatch(listProductDetails(productId))
    
   },[dispatch,productId])
-
   const AddToCartHandle = (e) =>{
     e.preventDefault()
     history.push(`/cart/${productId}?qty=${qty}`)
-
-
   }
 
   return (
     <>
       <Header />
+     
       <div className="container single-product">
         {
           loading ? (<Loading />) : error ? (<Message variant="alert-danger">{error}</Message>) : 
