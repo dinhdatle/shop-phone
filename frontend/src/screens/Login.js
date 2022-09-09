@@ -1,25 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Header from "./../components/Header";
+import Message from "../components/LoadingError/Error.js";
+import Loading from "../components/LoadingError/Loading.js";
+import {login} from "../Redux/Actions/userActions.js"
 
-const Login = () => {
+const Login = ({location,history}) => {
   window.scrollTo(0, 0);
+
+  const [email,setEmail] = useState("")
+  const [password,setPassword] = useState("")
+
+  const dispatch = useDispatch()
+
+  const redirect = location.search ? location.search.split("=")[1] : "/"
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const {error,loading,userInfo} = userLogin
+  
+  useEffect(()=>{
+    if(userInfo){
+      history.push(redirect)
+    }
+
+  },[userInfo,history,redirect])
+
+
+  // const submitHandler = (event) => {
+  //   event.preventDefault();
+  //   dispatch(login(email,password))
+    
+  // }
+
+  const submitHandler = () =>{
+    dispatch(login(email,password))
+  }
+  
 
   return (
     <>
       <Header />
       <div className="container d-flex flex-column justify-content-center align-items-center login-center">
-        <form className="Login col-md-8 col-lg-4 col-11">
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <button type="submit">Login</button>
+        {error && <Message variant="alert-danger">{error}</Message>}
+        {loading && <Loading></Loading>}
+        <form className="Login col-md-8 col-lg-4 col-11" onSubmit={submitHandler} >
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value) }/>
+          <button type="submit" onSubmit={submitHandler} >Login</button>
           <p>
-            <Link to={"/register"}>Create Account</Link>
+            <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>Create Account</Link>
           </p>
+          
         </form>
+        <button onClick={submitHandler}>LOGIN</button>
       </div>
     </>
   );
-};
+  }
 
-export default Login;
+export default Login
+
+

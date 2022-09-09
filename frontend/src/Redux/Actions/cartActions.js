@@ -4,8 +4,8 @@ import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../Constants/CartConstant";
 
 // ADD PRODUCT 
 export const addToCart = (id,qty) => async(dispath, getState) => {
-    const {data} = await axios(`/api/products/${id}`);
 
+    const {data} = await axios(`/api/products/${id}`);
     dispath({
         type:CART_ADD_ITEM,
         payload: {
