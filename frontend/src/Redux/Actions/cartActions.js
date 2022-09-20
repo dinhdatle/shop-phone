@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../Constants/CartConstant";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from "../Constants/CartConstant";
 
 
 // ADD PRODUCT 
@@ -18,7 +18,7 @@ export const addToCart = (id,qty) => async(dispath, getState) => {
 
         }
     })
-
+    console.log(getState())
     localStorage.setItem("cartItems",JSON.stringify(getState().cart.cartItems))
 }
 
@@ -31,6 +31,31 @@ export const removFromCart = (id) => (dispath,getState) => {
     })
 
     localStorage.setItem("cartItems",JSON.stringify(getState().cart.cartItems))
+
+}
+
+
+// SAVE SHIPPING ADDRESS
+
+export const saveShippingAddress = (data) => (dispath) => {
+    dispath({
+        type: CART_SAVE_SHIPPING_ADDRESS,
+        payload: data,
+    })
+
+    localStorage.setItem("shippingAddress",JSON.stringify(data))
+
+}
+
+// SAVE PAYMENT
+
+export const savePaymentMethod = (data) => (dispath) => {
+    dispath({
+        type: CART_SAVE_PAYMENT_METHOD,
+        payload: data,
+    })
+
+    localStorage.setItem("paymentMethod",JSON.stringify(data))
 
 }
 

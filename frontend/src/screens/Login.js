@@ -27,15 +27,13 @@ const Login = ({location,history}) => {
   },[userInfo,history,redirect])
 
 
-  // const submitHandler = (event) => {
-  //   event.preventDefault();
-  //   dispatch(login(email,password))
-    
-  // }
-
-  const submitHandler = () =>{
+  const submitHandler = (e) => {
+    e.preventDefault();
     dispatch(login(email,password))
+    
   }
+
+  
   
 
   return (
@@ -53,7 +51,6 @@ const Login = ({location,history}) => {
           </p>
           
         </form>
-        <button onClick={submitHandler}>LOGIN</button>
       </div>
     </>
   );
