@@ -2,7 +2,8 @@ import express  from "express";
 import User from "../Models/UserModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
-import protect from "../Middleware/AuthenMiddleware.js";
+import {protect,admin} from "../Middleware/AuthenMiddleware.js";
+
 
 
 const userRouter = express.Router()
@@ -35,7 +36,6 @@ userRouter.post("/login",
 
     }
 ))
-
 
 // REGISTER
 
@@ -125,6 +125,14 @@ userRouter.put("/profile", protect,
 
     }
 ))
+
+// GET ALL USER ADMIN   
+
+userRouter.get("/",protect,admin,asyncHandler(async (req,res)=> {
+    const users = await User.find({})
+    res.json(users)
+}))
+
 
 
 export default userRouter

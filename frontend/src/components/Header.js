@@ -1,10 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux'
 import { logout } from "../Redux/Actions/userActions";
 
 const Header = () => {
   const dispatch = useDispatch()
+  const [keyword,setKeyword] = useState("")
+  let history = useHistory()
+
+
   const cart = useSelector((state) => state.cart)
   const {cartItems} = cart
 
@@ -15,6 +19,16 @@ const Header = () => {
     dispatch(logout())
   }
 
+  const submitHandler = (e) => {
+    e.preventDefault()
+    if(keyword.trim()){
+      history.push(`/search/${keyword}`)
+    }
+    else {
+      history.push("/")
+    }
+
+  }
 
   return (
     <div>
@@ -81,14 +95,15 @@ const Header = () => {
                   </Link>
                 </div>
                 <div className="col-12 d-flex align-items-center">
-                  <form className="input-group">
+                  <form onSubmit={submitHandler} className="input-group">
                     <input
                       type="search"
                       className="form-control rounded search"
                       placeholder="Search"
+                      onChange={(e) => setKeyword(e.target.value)}
                     />
                     <button type="submit" className="search-button">
-                      search
+                      search 
                     </button>
                   </form>
                 </div>
@@ -106,11 +121,13 @@ const Header = () => {
                 </Link>
               </div>
               <div className="col-md-6 col-8 d-flex align-items-center">
-                <form className="input-group">
+                <form onSubmit={submitHandler} className="input-group">
                   <input
                     type="search"
                     className="form-control rounded search"
                     placeholder="Search"
+                    onChange={(e) => setKeyword(e.target.value)}
+
                   />
                   <button type="submit" className="search-button">
                     search
