@@ -1,7 +1,8 @@
 import express  from "express"; 
 import asyncHandler from "express-async-handler";
-import {protect} from "../Middleware/AuthenMiddleware.js";
+import {admin, protect} from "../Middleware/AuthenMiddleware.js";
 import Order from "../Models/OrderModel.js";
+import Product from "../Models/ProductModel.js";
 
 
 const orderRouter = express.Router()
@@ -45,8 +46,6 @@ orderRouter.get("/:id",protect,
         throw new Error ("Order not found ")
     }
 
-        
-
     }
 ))
 
@@ -82,16 +81,40 @@ orderRouter.put("/:id/pay",protect,
 
 orderRouter.get("/",protect,
  asyncHandler(async(req,res) =>{
-    const order = await Order.find({user: req.user._id}).sort({_id:-1})
-    
+    const order = await Order.findById({user: req.user._id}).sort({_id:-1})
         res.json(order)
-  
+    }
+))
+
+//  ADMIN GET ALL ORDERS
+
+orderRouter.get("/order/all",protect,admin,asyncHandler(async (req,res) => {
+    const orders = await Order.find({}).sort({_id:-1})
+    res.json(orders)
+}))
+
+
+// 
+orderRouter.put("/:id/delivered",protect,
+ asyncHandler(async(req,res) =>{
+    const order = await Order.findById(req.params.id)
+        
+    if(order) {
+        order.isDelivered = true
+        order.deliveredAt = Date.now
+       
+        const updateOrder = await order.save()
+        res.json(updateOrder)
+    }
+    else {
+        res.status(404)
+        throw new Error ("Order not found ")
+    }
+
         
 
     }
 ))
-
-
 
 
 

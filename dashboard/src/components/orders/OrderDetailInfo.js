@@ -27,7 +27,7 @@ const OrderDetailInfo = (props) => {
             <h6 className="mb-1">Order info</h6>
             <p className="mb-1">
               Shipping: {order.shippingAddress.country} <br /> Pay method:{" "}
-              {order.paymentMethod}
+              {order.paymentMethog}
             </p>
           </div>
         </article>

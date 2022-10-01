@@ -59,14 +59,10 @@ const MainProducts = () => {
         </header>
 
         <div className="card-body">
-          {errorDelete && (
-            <Message variant="alert-danger">{errorDelete}</Message>
-          )}
-          {loading ? (
-            <Loading />
-          ) : error ? (
-            <Message variant="alert-danger">{error}</Message>
-          ) : (
+          {errorDelete && (<Message variant="alert-danger">{errorDelete}</Message> )}
+          {loading ? (<Loading />) : error ? (<Message variant="alert-danger">{error}</Message> ) 
+          : 
+          (
             <div className="row">
               {/* Products */}
               {products.map((product) => (

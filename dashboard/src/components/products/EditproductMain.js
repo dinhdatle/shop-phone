@@ -31,22 +31,25 @@ const EditProductMain = (props) => {
 
   const productEdit = useSelector((state) => state.productEdit);
   const { loading, error, product } = productEdit;
+  console.log(product)
 
   const productUpdate = useSelector((state) => state.productUpdate);
-  const {
-    loading: loadingUpdate,
-    error: errorUpdate,
-    success: successUpdate,
-  } = productUpdate;
+  const {loading: loadingUpdate,error: errorUpdate,success: successUpdate} = productUpdate;
 
   useEffect(() => {
-    if (successUpdate) {
+    if (successUpdate) 
+    {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       toast.success("Product Updated", ToastObjects);
-    } else {
-      if (!product.name || product._id !== productId) {
+    } 
+    else 
+    {
+      if (!product.name || product._id !== productId)
+       {
         dispatch(editProduct(productId));
-      } else {
+      } 
+      else 
+      {
         setName(product.name);
         setDescription(product.description);
         setCountInStock(product.countInStock);

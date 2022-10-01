@@ -60,11 +60,11 @@ const Header = () => {
           <i className="md-28 fas fa-bars"></i>
         </button>
         <ul className="nav">
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link className={`nav-link btn-icon `} title="Dark mode" to="#">
               <i className="fas fa-moon"></i>
             </Link>
-          </li>
+          </li> */}
           <li className="nav-item">
             <Link className="nav-link btn-icon" to="#">
               <i className="fas fa-bell"></i>

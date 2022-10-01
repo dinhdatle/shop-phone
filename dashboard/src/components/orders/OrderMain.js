@@ -43,11 +43,9 @@ const OrderMain = () => {
         </header>
         <div className="card-body">
           <div className="table-responsive">
-            {loading ? (
-              <Loading />
-            ) : error ? (
-              <Message variant="alert-danger">{error}</Message>
-            ) : (
+            {loading ? (<Loading />) : 
+            error ? ( <Message variant="alert-danger">{error}</Message>) : 
+            (
               <Orders orders={orders} />
             )}
           </div>
