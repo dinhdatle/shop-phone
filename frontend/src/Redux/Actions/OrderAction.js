@@ -2,6 +2,7 @@ import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DE
 import {CART_CLEAR_ITEMS}from "../Constants/CartConstant"
 import axios from "axios"
 import { logout } from "./userActions"
+import {URL} from "../Url"
 
 // CREATE ORDER
 export const createOrder = (order) => async(dispatch,getState) => {
@@ -15,7 +16,7 @@ export const createOrder = (order) => async(dispatch,getState) => {
                 Authorization : `Bearer ${userInfo.token}`
             }
         }
-        const {data} = await axios.post(`/api/orders`,order,config)
+        const {data} = await axios.post(`${URL}/api/orders`,order,config)
 
         dispatch({type:ORDER_CREATE_SUCCESS,payload:data})
         dispatch({type: CART_CLEAR_ITEMS})
@@ -46,7 +47,7 @@ export const getOrderDetails = (id) => async(dispatch,getState) => {
                 Authorization : `Bearer ${userInfo.token}`
             }
         }
-        const {data} = await axios.get(`/api/orders/${id}`,config)
+        const {data} = await axios.get(`${URL}/api/orders/${id}`,config)
 
         dispatch({type:ORDER_DETAIL_SUCCESS,payload:data})
         
@@ -78,7 +79,7 @@ export const payOrder = (orderId,paymentResult) => async(dispatch,getState) => {
                 Authorization : `Bearer ${userInfo.token}`
             }
         }
-        const {data} = await axios.put(`/api/orders/${orderId}/pay`,paymentResult,config)
+        const {data} = await axios.put(`${URL}/api/orders/${orderId}/pay`,paymentResult,config)
 
         dispatch({type:ORDER_PAY_SUCCESS,payload:data})
 
@@ -109,7 +110,7 @@ export const listMyOrders = () => async(dispatch,getState) => {
                 Authorization : `Bearer ${userInfo.token}`
             }
         }
-        const {data} = await axios.get(`/api/orders/`,config)
+        const {data} = await axios.get(`${URL}/api/orders/`,config)
 
         dispatch({type:ORDER_LIST_MY_SUCCESS,payload:data})
 

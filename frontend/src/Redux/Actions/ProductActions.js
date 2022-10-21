@@ -3,6 +3,7 @@ import { PRODUCT_DETAILS_REQUEST,PRODUCT_DETAILS_SUCCESS,PRODUCT_DETAILS_FAIL} f
 
 import axios from "axios"
 import { compose } from "redux"
+import {URL} from "../Url"
 
 
 // LIST PRODUCTS
@@ -10,7 +11,7 @@ export const listProduct = (keyword=" ", pageNumber =" ") => async(dispatch) => 
     
     try {
         dispatch({type:PRODUCT_LIST_REQUEST})
-        const {data} = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
+        const {data} = await axios.get(`${URL}/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
         dispatch({type:PRODUCT_LIST_SUCCESS,payload:data})
 
         
@@ -26,7 +27,7 @@ export const listProduct = (keyword=" ", pageNumber =" ") => async(dispatch) => 
 export const listProductDetails = (id) => async(dispatch) => {
     try {
         dispatch({type:PRODUCT_DETAILS_REQUEST})
-        const {data} = await axios.get(`/api/products/${id}`);
+        const {data} = await axios.get(`${URL}/api/products/${id}`);
 
         dispatch({type:PRODUCT_DETAILS_SUCCESS,payload:data})
 
@@ -51,7 +52,7 @@ export const createProductReview = (productId,review) => async(dispatch,getState
                 Authorization : `Bearer ${userInfo.token}`
             }
         }
-        await axios.post(`/api/products/${productId}/review`,review,config)
+        await axios.post(`${URL}/api/products/${productId}/review`,review,config)
         
 
         dispatch({type:PRODUCT_CREATE_REVIEW_SUCCESS})

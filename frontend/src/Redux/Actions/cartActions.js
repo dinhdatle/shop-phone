@@ -1,11 +1,12 @@
 import axios from "axios"
 import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from "../Constants/CartConstant";
+import {URL} from "../Url"
 
 
 // ADD PRODUCT 
 export const addToCart = (id,qty) => async(dispath, getState) => {
 
-    const {data} = await axios(`/api/products/${id}`);
+    const {data} = await axios(`${URL}/api/products/${id}`);
     dispath({
         type:CART_ADD_ITEM,
         payload: {

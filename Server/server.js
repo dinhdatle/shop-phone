@@ -7,7 +7,7 @@ import productRoute from "./Routes/ProductRoutes.js";
 import {notFound,errorHandler} from "./Middleware/Errors.js"
 import userRouter from "./Routes/UserRoutes.js";
 import orderRouter from "./Routes/OrderRoutes.js";
-
+import cors from "cors"
 
 dotenv.config();
 connectDatabase();
@@ -15,6 +15,7 @@ connectDatabase();
 
 const app = express()
 app.use(express.json());
+app.use(cors())
 
 
 

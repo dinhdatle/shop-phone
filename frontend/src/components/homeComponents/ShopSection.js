@@ -20,17 +20,13 @@ const ShopSection = (props) => {
 
   useEffect(()=>{
     dispatch(listProduct(keyword,pagenumber))
-
-   
   },[dispatch,keyword,pagenumber])
 
   return (
     <>
       <div className="container">
         <div className="section">
-          {/* <div className="row"> */}
           <div>
-            {/* <div className="col-lg-12 col-md-12 article"> */}
             <div>
               <div className="shopcontainer row">
               {
@@ -47,15 +43,9 @@ const ShopSection = (props) => {
                       </Link>
                       <div className="shoptext">
                         <p>
-                          <Link to={`/products/${product._id}`}>
-                            {product.name}
-                          </Link>
+                          <Link to={`/products/${product._id}`}> {product.name} </Link>
                         </p>
-
-                        <Rating
-                          value={product.rating}
-                          text={`${product.numReviews} reviews`}
-                        />
+                        <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
                         <h3>${product.price}</h3>
                       </div>
                     </div>
