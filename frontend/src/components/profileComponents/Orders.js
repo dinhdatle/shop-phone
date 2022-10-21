@@ -41,9 +41,7 @@ const Orders = (props) => {
                       orders.map((order) => (
                         <tr className={`${order.isPaid ? "alert-success"  :"alert-danger"}`} key={order._id}>
                           <td>
-                            <a href={`/order/${order._id}`} className="link">
-                              {order._id}
-                            </a>
+                            <a href={`/order/${order._id}`} className="link"> {order._id}</a>
                           </td>
                           <td>{order.isPaid ? <>Paid</> : <>Not paid</>}</td>
                           <td>{order.isPaid ? moment(order.isPaid).calendar() : moment(order.createdAt).calendar()}</td>

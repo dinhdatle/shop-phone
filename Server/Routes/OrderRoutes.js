@@ -81,8 +81,9 @@ orderRouter.put("/:id/pay",protect,
 
 orderRouter.get("/",protect,
  asyncHandler(async(req,res) =>{
-    const order = await Order.findById({user: req.user._id}).sort({_id:-1})
-        res.json(order)
+    // const order = await Order.findById({user: req.user._id}).sort({_id:-1})
+    const order = await Order.find({user:req.user._id}).sort({_id:-1})
+    res.json(order)
     }
 ))
 
